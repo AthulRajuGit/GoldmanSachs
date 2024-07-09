@@ -1,0 +1,91 @@
+## Cycle in array detetction
+**********************************************************************************************************************************************************************************************************
+*using hashset
+
+
+import java.util.*;
+
+class Solution {
+
+    public static int lengthOfCycleFloydTortoiseAndHare(int[] arr, int startIndex) {
+        if (startIndex >= arr.length) {
+            return -1;
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        int count = 0;
+
+        while (!visited.contains(arr[startIndex])) {
+            count += 1;
+            visited.add(arr[startIndex]);
+            startIndex = arr[startIndex];
+            if (startIndex >= arr.length) {
+                return -1;
+            }
+        }
+
+        return count;
+    }
+**********************************************************************************************************************************************************************************************
+*using two pointers
+
+public static int lengthOfCycleFloydTortoiseAndHare(int[] arr, int startIndex) {
+    int n = arr.length;
+
+    if (startIndex < 0 || startIndex >= n || arr.length <= 0) {
+        return -1;
+    }
+
+    int slow = startIndex;
+    int fast = startIndex;
+
+    // Find the meeting point of the tortoise and hare
+    while (true) {
+        if (slow < n && fast < n && arr[slow] < n && arr[fast] < n) {
+            slow = arr[slow];
+            fast = arr[arr[fast]];
+        } else {
+            return -1;
+        }
+
+        if (slow == fast) {
+            break;
+        }
+    }
+
+    // Find the length of the cycle
+    int count = 1;
+    slow = arr[slow];
+    while (slow != fast) {
+        slow = arr[slow];
+        count++;
+    }
+
+    return count;
+}
+
+    
+}
+
+
+
+
+
+
+
+    public static void main(String[] args) {
+        int arr[] = {1, 1};
+        System.out.println(lengthOfCycleFloydTortoiseAndHare(arr, 1));
+        assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 2, 0}, 0) == 3;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 0}, 0) == 2;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 2, 3, 1}, 0) == 3;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 2, 3, 4}, 0) == -1;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 2, 3, 4}, -1) == -1;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{1, 2, 3, 4}, 4) == -1;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{2, 3, 4, 0}, 0) == -1;
+	      assert lengthOfCycleFloydTortoiseAndHare(new int[]{2, 3, 0}, 0) == 2;
+    }
+}
+
+
+
