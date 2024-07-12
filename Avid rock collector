@@ -1,4 +1,4 @@
-## recursion
+## recursion(2^(m,n))
 
 public class Solution {
 
@@ -32,7 +32,7 @@ public class Solution {
 
 
 
-## bottom up
+## bottom up(O(m*n))
 
 public class Solution {
 
