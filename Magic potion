@@ -1,0 +1,72 @@
+// Input:
+//   ABABCABABCE
+//Output:
+//   6
+//Explanation:
+//    In the first part, ABAB, AB has repeated twice and it can be replaced as AB* and similarly ABABC is repeated twice and so it can be encoded as AB*C*. 
+//    The last character is placed as it is and the final encoded format would be AB*C*E and so the length of the minimum encoded string is 6.
+
+
+
+
+dp approach
+
+
+private static int minimalSteps(String ingredients) {
+    int n = ingredients.length();
+    int[] dp = new int[n];
+    dp[0] = 1;
+    for (int i = 1; i < n; i++) {
+        // Check repeat only for even number of characters (odd index)
+        if (i % 2 == 1 && (repeatString(ingredients, 0, i / 2, i))) {
+            // If repeated use the length of the first block + 1 (for *)
+            dp[i] = dp[i / 2] + 1;
+        } else {
+            // If not just increment
+            dp[i] = dp[i-1] + 1;
+        }
+    }
+    return dp[n-1];
+}
+
+/**
+* Checks if string is repeated in i..j and j+1..k
+*/
+private static boolean repeatString(String s, int i, int j, int k) {
+    return s.substring(i, j+1).equals(s.substring(j+1, k+1));
+}
+
+
+
+
+
+
+Initialization:
+
+n = ingredients.length() calculates the length of the ingredients string.
+int[] dp = new int[n]; creates an array dp of size n to store the minimal steps needed up to each index i in ingredients.
+dp[0] = 1; initializes the first element of dp to 1, assuming the minimal steps to process the first character.
+Iteration:
+
+The for loop iterates from 1 to n-1 (for each character in ingredients):
+if (i % 2 == 1 && (repeatString(ingredients, 0, i / 2, i))) checks if i is an odd index and whether the substring from 0 to i/2 repeats in the substring from i/2 + 1 to i.
+If the substring is repeated, dp[i] = dp[i / 2] + 1; calculates the minimal steps needed as the steps to reach i/2 plus 1 additional step for the '*'.
+If not repeated, dp[i] = dp[i-1] + 1; calculates the steps by simply incrementing the steps needed up to i-1.
+Return:
+
+return dp[n-1]; returns the minimal steps required to process the entire ingredients string.
+repeatString Method
+java
+Copy code
+/**
+ * Checks if string is repeated in i..j and j+1..k
+ */
+private static boolean repeatString(String s, int i, int j, int k) {
+    return s.substring(i, j+1).equals(s.substring(j+1, k+1));
+}
+Explanation:
+Method Purpose: Checks if the substring from i to j in string s is repeated in the substring from j+1 to k.
+Logic:
+s.substring(i, j+1) extracts the substring from index i to j (inclusive).
+s.substring(j+1, k+1) extracts the substring from index j+1 to k (inclusive).
+equals() compares these two substrings to check if they are identical.
