@@ -1,0 +1,48 @@
+#searching node on a bonary tree log(n)
+
+public class BinaryTreeSearch {
+
+    // Function to find the level of node k
+    public static int findLevel(int k) {
+        int level = 0;
+        while (true) {
+            int start = (int) Math.pow(2, level);
+            int end = (int) Math.pow(2, level + 1) - 1;
+            if (start <= k && k <= end) {
+                return level;
+            }
+            level++;
+        }
+    }
+
+    // Function to find node k
+    public static int findNode(int k) {
+        if (k == 1) {
+            return 1;  // Root node
+        }
+
+        int level = findLevel(k);
+        int start = (int) Math.pow(2, level);
+        int end = (int) Math.pow(2, level + 1) - 1;
+
+        // Binary search within the level
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (mid == k) {
+                return mid;
+            } else if (mid < k) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        return -1;  // Should not reach here if k is valid
+    }
+
+    public static void main(String[] args) {
+        int k = 10;
+        int result = findNode(k);
+        System.out.println("Node " + k + " found: " + result);
+    }
+}
