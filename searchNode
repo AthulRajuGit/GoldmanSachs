@@ -1,48 +1,41 @@
 #searching node on a bonary tree log(n)
 
-public class BinaryTreeSearch {
+import java.util.*;
 
-    // Function to find the level of node k
-    public static int findLevel(int k) {
-        int level = 0;
-        while (true) {
-            int start = (int) Math.pow(2, level);
-            int end = (int) Math.pow(2, level + 1) - 1;
-            if (start <= k && k <= end) {
-                return level;
-            }
-            level++;
+public class FullBinaryTreeSearch {
+
+    // Function to find the position of node with value `target` in the full binary tree
+   public static int findNodePosition(int target, List<Integer> apSequence) {
+    if (target < 1 || apSequence.isEmpty()) return -1; // Invalid input
+
+    int start = 0;
+    int end = apSequence.size() - 1;
+
+    while (start <= end) {
+        int mid = start + (end - start) / 2;
+        int value = apSequence.get(mid);
+
+        if (value == target) {
+            return mid +1; // Adjust for 1-based indexing
+        } else if (value < target) {
+            start = mid + 1;
+        } else {
+            end = mid - 1;
         }
     }
 
-    // Function to find node k
-    public static int findNode(int k) {
-        if (k == 1) {
-            return 1;  // Root node
-        }
-
-        int level = findLevel(k);
-        int start = (int) Math.pow(2, level);
-        int end = (int) Math.pow(2, level + 1) - 1;
-
-        // Binary search within the level
-        while (start <= end) {
-            int mid = (start + end) / 2;
-            if (mid == k) {
-                return mid;
-            } else if (mid < k) {
-                start = mid + 1;
-            } else {
-                end = mid - 1;
-            }
-        }
-
-        return -1;  // Should not reach here if k is valid
-    }
+    return -1; // Node with `target` value not found
+}
 
     public static void main(String[] args) {
-        int k = 10;
-        int result = findNode(k);
-        System.out.println("Node " + k + " found: " + result);
+        List<Integer> apSequence = Arrays.asList(1, 4, 7, 10, 13,15); // Example arithmetic progression
+        int target = 1; // Example target value to search for
+        int position = findNodePosition(target, apSequence);
+        
+        if (position != -1) {
+            System.out.println("Node with value " + target + " found at position " + position);
+        } else {
+            System.out.println("Node with value " + target + " not found");
+        }
     }
 }
