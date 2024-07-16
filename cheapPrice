@@ -1,0 +1,7 @@
+#There is a shop, where vendors sell items. They all sell same item but they can change the price of the item during the day.Given intervals of time and a lower price for the item during 
+#this interval for each vendor, calculate the cheapest price for the item during the day within different time intervals.Input data for each vendor is {startTime, endTime, price}. For 
+#example for 3 vendors in the shop: [{0, 4, 5}, {2, 8, 3}, {7, 11, 10}],the result should be [{0, 2, 5}, {2, 8, 3}, {8, 11, 10}]”
+
+
+
+
