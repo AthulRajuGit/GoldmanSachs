@@ -1,0 +1,50 @@
+Sort a list of strings according to a given order of the alphabets.
+
+For example, ["abcd","yyyy","zk"], order="yzxabcdefghijklmnopqrstuvw"
+
+Output: ["yyyy","zk",abcd"]
+
+
+import java.util.*;
+
+class Solution {
+    public List<String> customSortStrings(String order, List<String> strings) {
+        // Create a map to store the order of each character
+        Map<Character, Integer> orderMap = new HashMap<>();
+        for (int i = 0; i < order.length(); i++) {
+            orderMap.put(order.charAt(i), i);
+        }
+
+        // Sort the strings using a custom comparator
+        Collections.sort(strings, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                int len1 = s1.length();
+                int len2 = s2.length();
+                int i = 0, j = 0;
+                while (i < len1 && j < len2) {
+                    char c1 = s1.charAt(i);
+                    char c2 = s2.charAt(j);
+                    if (orderMap.get(c1) != orderMap.get(c2)) {
+                        return orderMap.get(c1) - orderMap.get(c2);
+                    }
+                    i++;
+                    j++;
+                }
+                // If all characters compared so far are equal, compare by length
+                return len1 - len2;
+            }
+        });
+
+        return strings;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<String> strings = Arrays.asList("abcd", "yyyy", "zk");
+        String order = "yzxabcdefghijklmnopqrstuvw";
+        
+        List<String> sortedStrings = sol.customSortStrings(order, strings);
+        System.out.println(sortedStrings); // Output: ["yyyy", "zk", "abcd"]
+    }
+}
