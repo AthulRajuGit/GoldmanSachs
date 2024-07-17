@@ -48,3 +48,53 @@ class Solution {
         System.out.println(sortedStrings); // Output: ["yyyy", "zk", "abcd"]
     }
 }
+
+
+****************************************************************************************
+Time O(NS)
+Space O(1)
+import java.util.Arrays;
+
+class Solution {
+    int[] mapping = new int[26];
+
+    public String[] alienOrderSort(String[] words, String order) {
+        // Create the mapping array based on the custom order
+        for (int i = 0; i < order.length(); i++) {
+            mapping[order.charAt(i) - 'a'] = i;
+        }
+
+        // Sort the words array using a custom sorting logic
+        for (int i = 0; i < words.length - 1; i++) {
+            for (int j = i + 1; j < words.length; j++) {
+                if (bigger(words[i], words[j])) {
+                    // Swap words[i] and words[j]
+                    String temp = words[i];
+                    words[i] = words[j];
+                    words[j] = temp;
+                }
+            }
+        }
+
+        return words;
+    }
+
+    boolean bigger(String s1, String s2) {
+        int n = s1.length(), m = s2.length();
+        for (int i = 0; i < n && i < m; ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                return mapping[s1.charAt(i) - 'a'] > mapping[s2.charAt(i) - 'a'];
+            }
+        }
+        return n > m;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        String[] words = {"apple","app"};
+        String order = "abcdefghijklmnopqrstuvwxyz";
+        String[] sortedWords = sol.alienOrderSort(words, order);
+        System.out.println(Arrays.toString(sortedWords)); // Output: [yyyy, zk, abcd]
+    }
+}
+
