@@ -1,0 +1,36 @@
+class Solution {
+    public static String compress(char[] chars) {
+        int n = chars.length;
+
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+
+        while (i < n) {
+            char curr = chars[i];
+
+            int count = 0;
+            // Find count of duplicates
+            while (i < n && chars[i] == curr) {
+                i++;
+                count++;
+            }
+
+            // Append current character
+            sb.append(curr);
+
+            // Append count if greater than 1
+            if (count > 1) {
+                sb.append(count);
+            } else if (count == 1) {
+                sb.append('1');
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static void main(String args[]) {
+        char[] arr = {'a', 'a','a', 'a','a', 'a','a', 'a','a', 'a','a', 'a','a', 'a','a', 'a', 'b'};
+        System.out.println(compress(arr)); // Output: a16b1
+    }
+}
