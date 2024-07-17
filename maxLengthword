@@ -1,0 +1,56 @@
+Given a dictionary of the words(strings) which contains different words & you are given an input string e.g. “abd”. You need to find the largest word available in the supplied dictionary which can be made using the letters of input string. The returned word can contain only the same no of occurrences of the letters as given in the input string i.e. if a letter is given once then in the output it should be existed only once. Examples:
+
+1, Dictionary {“to”, “banana”, “toe”, “dogs”, “ababcd”, “elephant”} and input string is “eot”. Output should be “toe”
+2, Dictionary is same as specified in example a but the input string is “ogtdes” and the output is “dogs” and “toes”
+
+
+
+import java.util.*;
+
+class Solution {
+
+    public static List<String> wordDict(List<String> words, String input) {
+        // Create a bucket to store frequencies of the input string letters. (I am assuming the string contains lowercase letters only)
+        int[] bucket = new int[26];
+        int maxLen = 0;
+        List<String> res = new ArrayList<>();
+
+        for (char c : input.toCharArray()) {
+            bucket[c - 'a']++;
+        }
+
+        for (String word : words) {
+            // Check if the word can be made using the letters in the bucket.
+            if (canBeMade(bucket.clone(), word)) {
+                if (word.length() == maxLen) { // If we find a word same as the longest word, add it to the list.
+                    res.add(word);
+                } else if (word.length() > maxLen) { // If we find a longer word, clear the list and add the new word and update the len.
+                    res.clear();
+                    res.add(word);
+                    maxLen = word.length();
+                }
+            }
+        }
+        return res;
+    }
+
+    private static boolean canBeMade(int[] bucket, String word) {
+        for (int i = 0; i < word.length(); i++) {
+            if (bucket[word.charAt(i) - 'a'] == 0) { // if the input does not contain that letter, we don't proceed since the word can't be made.
+                return false;
+            } else {
+                bucket[word.charAt(i) - 'a']--;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        List<String> array = Arrays.asList("to", "banana", "toe", "dogs", "ababcd", "elephant");
+        String input = "ogtdes";
+
+        List<String> result = wordDict(array, input);
+
+        System.out.println(result);
+    }
+}
