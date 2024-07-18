@@ -1,0 +1,83 @@
+input: abcd
+const: 123
+o/p: abbcccd
+
+input: abcde
+const: 4
+o/p: aaaabcde
+
+also decode in the same manner
+
+eg:
+i/p: aabbbccccd
+const:2341
+o/p: abcd
+
+
+
+multiply
+class Solution {
+    public static String multiplyStringWithNumbers(String s, String nums) {
+        StringBuilder result = new StringBuilder();
+        
+        // Iterate through the minimum length of both strings
+        int minLength = Math.min(s.length(), nums.length());
+        for (int i = 0; i < minLength; i++) {
+            char currChar = s.charAt(i);
+            int repeatCount = nums.charAt(i) - '0'; // Convert char digit to int
+
+            // Append the character 'repeatCount' times directly
+            for (int j = 0; j < repeatCount; j++) {
+                result.append(currChar);
+            }
+        }
+
+        // If s is longer than nums, append the remaining characters as they are
+        if (s.length() > nums.length()) {
+            result.append(s.substring(nums.length()));
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String s = "abcdfeghhhhh";
+        String nums = "1234";
+        System.out.println(multiplyStringWithNumbers(s, nums)); // Output: "abbcccdddfegh"
+    }
+}
+
+divide
+
+class Solution {
+    public static String[] decodeString(String encoded) {
+        StringBuilder sBuilder = new StringBuilder();
+        StringBuilder numsBuilder = new StringBuilder();
+        
+        int i = 0;
+        while (i < encoded.length()) {
+            char currChar = encoded.charAt(i);
+            sBuilder.append(currChar);
+            
+            int count = 1;
+            while (i + 1 < encoded.length() && encoded.charAt(i + 1) == currChar) {
+                count++;
+                i++;
+            }
+            
+            numsBuilder.append(count);
+            i++;
+        }
+        
+        String s = sBuilder.toString();
+        String nums = numsBuilder.toString();
+        return new String[] { s, nums };
+    }
+
+    public static void main(String[] args) {
+        String encoded = "abbcccdddfegh";
+        String[] result = decodeString(encoded);
+        System.out.println("s: " + result[0]); // Output: "abcdfegh"
+        System.out.println("nums: " + result[1]); // Output: "1234"
+    }
+}
